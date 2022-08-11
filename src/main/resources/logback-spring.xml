@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="LOG_PATH" source="log.path" defaultValue="/opt/log/"/>
+    <springProperty scope="context" name="LOGSTASH_HOST" source="logstash.host" defaultValue="elk"/>
+    <springProperty scope="context" name="LOGSTASH_PORT" source="logstash.port" defaultValue="4560"/>
+    <springProperty scope="context" name="LOG_LEVEL" source="log.level" defaultValue="debug"/>
+    <springProperty scope="context" name="APPLICATION_NAME" source="application.compile.name" defaultValue="null"/>
+    <springProperty scope="context" name="APPLICATION_VERSION" source="application.compile.version" defaultValue="null"/>
+    <springProperty scope="context" name="POD_NAME" source="kubernetes.pod.name" defaultValue="null"/>
+    <springProperty scope="context" name="POD_NAMESPACE" source="kubernetes.pod.namespace" defaultValue="null"/>
+
+    <!--
+        <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    -->
+
+
+    <!--
+        <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } -&#45;&#45; [%15.15t] %X{messageId} %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    -->
+    <springProfile name="dev">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern> %highlight(%-5level) | %cyan(%d{ISO8601}) | %green(%X{correlation-id}) | %magenta([%thread]) | %yellow(%c{1}) | %m%ex%n</pattern>
+            </encoder>
+        </appender>
+        <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/log.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <Pattern> %highlight(%-5level) | %cyan(%d{ISO8601}) | %green(%X{correlation-id}) | %magenta([%thread]) | %yellow(%c{1}) | %m%ex%n</Pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/log_%d{dd-MM-yyyy}.log</fileNamePattern>
+                <maxHistory>10</maxHistory>
+                <totalSizeCap>300MB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>${LOGSTASH_HOST}:${LOGSTASH_PORT}</destination>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+
+        <root level="WARN">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+            <appender-ref ref="logstash" />
+        </root>
+
+        <logger name="com.tc.execution" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+            <appender-ref ref="logstash" />
+        </logger>
+        <logger name="com.dewire.oe" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+            <appender-ref ref="logstash" />
+        </logger>
+    </springProfile>
+
+    <springProfile name="prod">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern> %highlight(%-5level) | %cyan(%d{ISO8601}) | %green(%X{correlation-id}) | %magenta([%thread]) | %yellow(%c{1}) | %m%ex%n</pattern>
+            </encoder>
+        </appender>
+
+        <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>${LOGSTASH_HOST}:${LOGSTASH_PORT}</destination>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+
+        <root level="WARN">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="logstash" />
+        </root>
+
+        <logger name="com.tc.execution" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="logstash" />
+        </logger>
+        <logger name="com.dewire.oe" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="logstash" />
+        </logger>
+    </springProfile>
+    <springProfile name="test">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern> %highlight(%-5level) | %cyan(%d{ISO8601}) | %green(%X{correlation-id}) | %magenta([%thread]) | %yellow(%c{1}) | %m%ex%n</pattern>
+            </encoder>
+        </appender>
+
+        <root level="WARN">
+            <appender-ref ref="STDOUT" />
+        </root>
+
+        <logger name="com.tc.execution" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="com.dewire.oe" additivity="false" level="${LOG_LEVEL}">
+            <appender-ref ref="STDOUT" />
+        </logger>
+    </springProfile>
+
+
+</configuration>

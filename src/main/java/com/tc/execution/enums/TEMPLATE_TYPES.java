@@ -1,0 +1,5 @@
+package com.tc.execution.enums;
+
+public enum TEMPLATE_TYPES {
+    CUSTOMER, DELIVERY, DELIVERY_SMALL, CUSTOMER_TOO_SMALL, SIP_TEST, NUMBER_SETTINGS
+}

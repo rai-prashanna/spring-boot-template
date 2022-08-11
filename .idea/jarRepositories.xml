@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="repo.dewire.com" />
+      <option name="name" value="dewire releases" />
+      <option name="url" value="http://repo.dewire.com:8081/artifactory/libs-releases-local" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="dewire snapshots" />
+      <option name="name" value="libs-snapshots" />
+      <option name="url" value="http://repo.dewire.com:8081/artifactory/libs-snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss" />
+      <option name="name" value="JBoss (Dead rat) repo" />
+      <option name="url" value="https://maven.repository.redhat.com/techpreview/all/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="spring-milestones" />
+      <option name="name" value="Spring Milestones" />
+      <option name="url" value="https://repo.spring.io/milestone" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="repo.dewire.com-snapshots" />
+      <option name="name" value="dewire snapshots" />
+      <option name="url" value="http://repo.dewire.com:8081/artifactory/libs-snapshots-local" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="dewire releases" />
+      <option name="name" value="libs-releases" />
+      <option name="url" value="http://repo.dewire.com:8081/artifactory/libs-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven central" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+  </component>
+</project>
